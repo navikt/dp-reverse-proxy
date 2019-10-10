@@ -1,7 +1,7 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: helse-reverse-proxy
+  name: dp-reverse-proxy
   namespace: default
   labels:
     team: {{team}}
@@ -26,7 +26,7 @@ spec:
       cpu: 200m
       memory: 512Mi
   ingresses:
-    - https://helse-reverse-proxy.nais.preprod.local
+    - https://dp-reverse-proxy.nais.preprod.local
   replicas:
     min: 1
     max: 1
@@ -39,9 +39,3 @@ spec:
   env:
     - name: HRP_security_token_service
       value: http://security-token-service
-    - name: HRP_aktoer_register
-      value: https://app-q1.adeo.no/aktoerregister
-    - name: HRP_sparkel
-      value: http://sparkel
-    - name: HRP_pleiepengesoknad_mottak
-      value: http://pleiepengesoknad-mottak
