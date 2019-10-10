@@ -22,9 +22,9 @@ pipeline {
 
         // Should run a set of tests like: unit, functional, component,
         // coverage, contract, lint, mutation.
-        sh label: 'Test code', script: """
-          ./gradlew test
-        """
+//         sh label: 'Test code', script: """
+//           ./gradlew test
+//         """
 
         sh label: 'Build artifact', script: """
           ./gradlew build
@@ -62,7 +62,7 @@ pipeline {
             reportName: 'Test coverage'
           ]
 
-          junit 'build/test-results/test/*.xml'
+//           junit 'build/test-results/test/*.xml'
         }
       }
     }
