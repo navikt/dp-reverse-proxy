@@ -1,1 +1,1 @@
-rootProject.name = "helse-reverse-proxy"
+rootProject.name = "dp-reverse-proxy"
