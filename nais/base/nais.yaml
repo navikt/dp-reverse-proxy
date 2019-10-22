@@ -31,3 +31,5 @@ spec:
       value: http://security-token-service
     - name: DP_regel_api
       value: nrk.no
+    - name: DP_dagpenger_oppslag
+      value: https://dagpenger-oppslag
