@@ -27,9 +27,5 @@ spec:
   vault:
     enabled: true
   env:
-    - name: DP_security_token_service
-      value: http://security-token-service
-    - name: DP_regel_api
-      value: nrk.no
-    - name: DP_dagpenger_oppslag
+    - name: DP_DAGPENGER_OPPSLAG
       value: https://dagpenger-oppslag
