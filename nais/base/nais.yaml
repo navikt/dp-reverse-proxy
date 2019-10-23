@@ -25,7 +25,11 @@ spec:
   ingresses:
     - https://dp-reverse-proxy.nais.preprod.local
   vault:
-    enabled: false
+    enabled: true
   env:
-    - name: HRP_security_token_service
+    - name: DP_security_token_service
       value: http://security-token-service
+    - name: DP_regel_api
+      value: nrk.no
+    - name: DP_dagpenger_oppslag
+      value: https://dagpenger-oppslag
