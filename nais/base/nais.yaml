@@ -25,7 +25,7 @@ spec:
   ingresses:
     - https://dp-reverse-proxy.nais.preprod.local
   vault:
-    enabled: true
+    enabled: false
   env:
     - name: DP_DAGPENGER_OPPSLAG
       value: https://dagpenger-oppslag
