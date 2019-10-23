@@ -6,7 +6,7 @@ import java.net.URI
 
 private val logger: Logger = LoggerFactory.getLogger("nav.Environment")
 
-private const val ENVIRONMENT_VARIABLE_PREFIX = "DP_"
+private const val ENVIRONMENT_VARIABLE_PREFIX = "DPI_"
 private const val PREFIX_LENGTH = ENVIRONMENT_VARIABLE_PREFIX.length
 
 data class Environment(val environmentVariables: Map<String, String> = System.getenv()) {

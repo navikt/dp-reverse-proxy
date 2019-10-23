@@ -27,5 +27,5 @@ spec:
   vault:
     enabled: false
   env:
-    - name: DP_DAGPENGER_OPPSLAG
+    - name: DPI_DAGPENGER_OPPSLAG
       value: https://dagpenger-oppslag
