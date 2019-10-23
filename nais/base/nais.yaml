@@ -6,9 +6,9 @@ spec:
   image: repo.adeo.no:5443/dp-reverse-proxy:latest
   port: 8080
   liveness:
-    path: isalive
+    path: /isalive
   readiness:
-    path: isready
+    path: /isready
   prometheus:
     enabled: false
     path: /metrics
