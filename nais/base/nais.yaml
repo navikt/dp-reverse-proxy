@@ -28,6 +28,6 @@ spec:
     enabled: false
   env:
     - name: DPI_DAGPENGER_OPPSLAG
-      value: https://dagpenger-oppslag
+      value: http://dagpenger-oppslag
     - name: DPI_DAGPENGER_REGEL
       value: httsp://dp-regel-api
