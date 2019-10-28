@@ -28,8 +28,8 @@ spec:
     enabled: false
   env:
     - name: DPI_DAGPENGER_OPPSLAG
-      value: https://dagpenger-oppslag
+      value: http://dagpenger-oppslag
     - name: DPI_DAGPENGER_REGEL
-      value: https://dp-regel-api
+      value: http://dp-regel-api
     - name: DPI_SECURITY_TOKEN_SERVICE
-      value: https://security-token-service
+      value: http://security-token-service
