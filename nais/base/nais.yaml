@@ -30,4 +30,6 @@ spec:
     - name: DPI_DAGPENGER_OPPSLAG
       value: https://dagpenger-oppslag
     - name: DPI_DAGPENGER_REGEL
-      value: httsp://dp-regel-api
+      value: https://dp-regel-api
+    - name: DPI_SECURITY_TOKEN_SERVICE
+      value: https://security-token-service
