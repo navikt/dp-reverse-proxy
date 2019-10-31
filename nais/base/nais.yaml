@@ -27,9 +27,7 @@ spec:
   vault:
     enabled: false
   env:
-    - name: DPI_DAGPENGER_OPPSLAG
-      value: http://dagpenger-oppslag
+    - name: DPI_DAGPENGER_GRAPHQL
+      value: http://dp-graphql
     - name: DPI_DAGPENGER_REGEL
       value: http://dp-regel-api
-    - name: DPI_SECURITY_TOKEN_SERVICE
-      value: http://security-token-service
