@@ -150,10 +150,10 @@ private fun initializeRequest(
     parameters: List<Pair<String, Any?>>
 ) : Request {
     return when (httpMethod.value.toLowerCase()) {
-        "get" -> url.toString().httpGet(parameters)
-        "post" -> url.toString().httpPost(parameters)
-        "put" -> url.toString().httpPut(parameters)
-        "delete" -> url.toString().httpDelete(parameters)
+        "get" -> url.toString().httpGet(parameters).allowRedirects(false)
+        "post" -> url.toString().httpPost(parameters).allowRedirects(false)
+        "put" -> url.toString().httpPut(parameters).allowRedirects(false)
+        "delete" -> url.toString().httpDelete(parameters).allowRedirects(false)
         else -> throw IllegalStateException("Ikke supportert HttpMethod $httpMethod")
     }
 }
