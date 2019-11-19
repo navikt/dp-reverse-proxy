@@ -5,3 +5,8 @@ metadata:
 spec:
   ingresses:
     - https://dp-reverse-proxy.nais.adeo.no
+  env:
+    - name: DPI_DP_GRAPHQL
+      value: http://dp-graphql
+    - name: DPI_DP_REGEL_API
+      value: http://dp-regel-api

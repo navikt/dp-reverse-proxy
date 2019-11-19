@@ -22,12 +22,5 @@ spec:
     requests:
       cpu: 200m
       memory: 512Mi
-  ingresses:
-    - https://dp-reverse-proxy.nais.preprod.local
   vault:
     enabled: false
-  env:
-    - name: DPI_DP_GRAPHQL
-      value: http://dp-graphql
-    - name: DPI_DP_REGEL_API
-      value: http://dp-regel-api

@@ -2,3 +2,11 @@ apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
   name: dp-reverse-proxy
+spec:
+  ingresses:
+    - https://dp-reverse-proxy.nais.preprod.local
+  env:
+    - name: DPI_DP_GRAPHQL
+      value: http://dp-graphql
+    - name: DPI_DP_REGEL_API
+      value: http://dp-regel-api
