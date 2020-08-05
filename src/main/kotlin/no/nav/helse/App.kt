@@ -7,28 +7,45 @@ import com.github.kittinunf.fuel.httpDelete
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.httpPut
-import io.ktor.application.*
+import io.ktor.application.Application
+import io.ktor.application.ApplicationCall
+import io.ktor.application.ApplicationCallPipeline
+import io.ktor.application.call
+import io.ktor.application.install
 import io.ktor.features.CallId
 import io.ktor.features.CallLogging
 import io.ktor.features.callIdMdc
-import io.ktor.http.*
-import io.ktor.request.*
+import io.ktor.http.ContentType
+import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.Parameters
+import io.ktor.http.URLBuilder
+import io.ktor.http.toURI
+import io.ktor.request.ApplicationRequest
+import io.ktor.request.header
+import io.ktor.request.httpMethod
+import io.ktor.request.path
+import io.ktor.request.receiveOrNull
 import io.ktor.response.header
 import io.ktor.response.respond
 import io.ktor.response.respondBytes
 import io.ktor.routing.Routing
-import no.nav.helse.dusseldorf.ktor.core.*
+import no.nav.helse.dusseldorf.ktor.core.DefaultProbeRoutes
+import no.nav.helse.dusseldorf.ktor.core.log
+import no.nav.helse.dusseldorf.ktor.core.logRequests
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.ByteArrayInputStream
 import java.net.URI
-import java.util.*
+import java.util.UUID
 
 private val logger: Logger = LoggerFactory.getLogger("nav.App")
 private const val navCallIdHeader = "Nav-Call-Id"
 private val monitoringPaths = listOf("isalive", "isready")
 
-fun main(args: Array<String>): Unit  = io.ktor.server.netty.EngineMain.main(args)
+fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 fun Application.helseReverseProxy() {
     val mappings = Environment().getMappings()
@@ -49,7 +66,7 @@ fun Application.helseReverseProxy() {
 
     install(CallLogging) {
         callIdMdc("correlation_id")
-        mdc("request_id") {"generated-${UUID.randomUUID()}"}
+        mdc("request_id") { "generated-${UUID.randomUUID()}" }
         logRequests()
     }
 
@@ -57,7 +74,7 @@ fun Application.helseReverseProxy() {
         if (!call.request.isMonitoringRequest()) {
             if (!call.request.hasValidPath()) {
                 call.respondErrorAndLog(HttpStatusCode.BadGateway, "Invalid requested path.")
-            } else if (!call.request.isMonitoringRequest())  {
+            } else if (!call.request.isMonitoringRequest()) {
                 val destinationApplication = call.request.firstPathSegment()
                 logger.trace("destinationApplication = '$destinationApplication'")
                 val destinationPath = call.request.pathWithoutFirstPathSegment()
@@ -66,12 +83,13 @@ fun Application.helseReverseProxy() {
                 logger.trace("httpMethod = '$httpMethod'")
                 if (!mappings.containsKey(destinationApplication)) {
                     call.respondErrorAndLog(HttpStatusCode.BadGateway, "Application '$destinationApplication' not configured.")
-                } else  {
+                } else {
                     val parameters = call.request.queryParameters.toFuel()
                     val headers = call.request.headers.toFuel()
                     val body = call.receiveOrNull<ByteArray>()
 
-                    val destinationUrl = produceDestinationUrl(destinationPath,
+                    val destinationUrl = produceDestinationUrl(
+                        destinationPath,
                         mappings.getValue(destinationApplication)
                     )
 
@@ -87,12 +105,12 @@ fun Application.helseReverseProxy() {
                         .timeoutRead(20_000)
 
                     if (body != null) {
-                        httpRequest.body( {ByteArrayInputStream(body) })
+                        httpRequest.body({ ByteArrayInputStream(body) })
                     }
 
                     val (_, response, result) = httpRequest.awaitByteArrayResponseResult()
                     result.fold(
-                        { success -> call.forward(response, success)},
+                        { success -> call.forward(response, success) },
                         { failure ->
                             if (-1 == response.statusCode) {
                                 logger.error(failure.toString())
@@ -106,7 +124,6 @@ fun Application.helseReverseProxy() {
             }
         }
     }
-
 }
 
 private suspend fun ApplicationCall.forward(
@@ -148,7 +165,7 @@ private fun initializeRequest(
     httpMethod: HttpMethod,
     url: URI,
     parameters: List<Pair<String, Any?>>
-) : Request {
+): Request {
     return when (httpMethod.value.toLowerCase()) {
         "get" -> url.toString().httpGet(parameters).allowRedirects(false)
         "post" -> url.toString().httpPost(parameters).allowRedirects(false)
@@ -157,7 +174,6 @@ private fun initializeRequest(
         else -> throw IllegalStateException("Ikke supportert HttpMethod $httpMethod")
     }
 }
-
 
 private suspend fun ApplicationCall.respondErrorAndLog(status: HttpStatusCode, error: String) {
     logger.error("HTTP $status -> $error")
@@ -188,13 +204,13 @@ private fun ApplicationRequest.pathWithoutFirstPathSegment(): String {
     return path.substring(firstPathSegment.length)
 }
 
-private fun produceDestinationUrl(destinationPath: String, baseUrl: URI) : URI {
+private fun produceDestinationUrl(destinationPath: String, baseUrl: URI): URI {
     return URLBuilder(baseUrl.toString())
         .trimmedPath(listOf(baseUrl.path, destinationPath))
         .build().toURI()
 }
 
-private fun URLBuilder.trimmedPath(pathParts : List<String>): URLBuilder  {
+private fun URLBuilder.trimmedPath(pathParts: List<String>): URLBuilder {
     val trimmedPathParts = mutableListOf<String>()
     pathParts.forEach { part ->
         if (part.isNotBlank()) {
@@ -204,6 +220,6 @@ private fun URLBuilder.trimmedPath(pathParts : List<String>): URLBuilder  {
     return path(trimmedPathParts)
 }
 
-private fun ApplicationRequest.isMonitoringRequest() : Boolean {
+private fun ApplicationRequest.isMonitoringRequest(): Boolean {
     return monitoringPaths.contains(firstPathSegment())
 }

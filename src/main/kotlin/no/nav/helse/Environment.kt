@@ -11,14 +11,14 @@ private const val PREFIX_LENGTH = ENVIRONMENT_VARIABLE_PREFIX.length
 
 data class Environment(val environmentVariables: Map<String, String> = System.getenv()) {
 
-    private val mappings : Map<String, URI>
+    private val mappings: Map<String, URI>
 
     init {
         val parsedMappings = mutableMapOf<String, URI>()
 
         environmentVariables.forEach { (key, value) ->
             if (key.startsWith(ENVIRONMENT_VARIABLE_PREFIX, ignoreCase = true)) {
-                val contextPath = key.substring(PREFIX_LENGTH).toLowerCase().replace("_","-")
+                val contextPath = key.substring(PREFIX_LENGTH).toLowerCase().replace("_", "-")
                 val url = URI(value)
                 parsedMappings[contextPath] = url
                 logger.info("Added mapping '$contextPath' -> '$url'")
@@ -28,7 +28,7 @@ data class Environment(val environmentVariables: Map<String, String> = System.ge
         mappings = parsedMappings.toMap()
     }
 
-    fun getMappings() : Map<String, URI> {
+    fun getMappings(): Map<String, URI> {
         return mappings
     }
 }

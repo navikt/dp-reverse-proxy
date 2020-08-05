@@ -6,13 +6,14 @@ val mainClass = "no.nav.helse.AppKt"
 
 plugins {
     application
-    kotlin("jvm") version "1.3.41"
-    id("com.github.johnrengelman.shadow") version "5.1.0"
-
+    kotlin("jvm") version Kotlin.version
+    id(Spotless.spotless) version Spotless.version
+    id(Shadow.shadow) version Shadow.version
 }
 
 application {
-    mainClassName = mainClass
+    applicationName = "dp-reverse-proxy"
+    mainClassName = "no.nav.helse.AppKt"
 }
 
 buildscript {
@@ -20,8 +21,8 @@ buildscript {
 }
 
 dependencies {
-    compile ( "no.nav.helse:dusseldorf-ktor-core:$dusseldorfKtorVersion")
-    compile ( "no.nav.helse:dusseldorf-ktor-client:$dusseldorfKtorVersion")
+    compile("no.nav.helse:dusseldorf-ktor-core:$dusseldorfKtorVersion")
+    compile("no.nav.helse:dusseldorf-ktor-client:$dusseldorfKtorVersion")
 }
 
 repositories {
@@ -34,15 +35,23 @@ repositories {
     mavenCentral()
 }
 
-
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 }
 
-
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+spotless {
+    kotlin {
+        ktlint(Ktlint.version)
+    }
+    kotlinGradle {
+        target("*.gradle.kts", "buildSrc/**/*.kt*")
+        ktlint(Ktlint.version)
+    }
 }
 
 tasks.withType<ShadowJar> {
@@ -58,5 +67,5 @@ tasks.withType<ShadowJar> {
 }
 
 tasks.withType<Wrapper> {
-    gradleVersion = "5.6"
+    gradleVersion = "6.5.1"
 }
