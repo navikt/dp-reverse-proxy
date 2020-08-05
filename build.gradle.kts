@@ -1,4 +1,3 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val dusseldorfKtorVersion = "1.2.3.ec226d3"
@@ -51,18 +50,6 @@ spotless {
     kotlinGradle {
         target("*.gradle.kts", "buildSrc/**/*.kt*")
         ktlint(Ktlint.version)
-    }
-}
-
-tasks.withType<ShadowJar> {
-    archiveBaseName.set("app")
-    archiveClassifier.set("")
-    manifest {
-        attributes(
-            mapOf(
-                "Main-Class" to mainClass
-            )
-        )
     }
 }
 
