@@ -50,11 +50,6 @@ jobs:
      steps:
        - uses: actions/checkout@master
          name: Checkout code
-       - name: Lag tag for image
-         run: echo "::set-env name=TAG::$(git log -1 --pretty='%ad_%h' --date=format:'%Y%m%d%H%M%S')"
-       - name: Lag full image referanse
-         run: echo "::set-env name=IMAGE::$BASEIMAGE:$TAG"
-
        - uses: nais/deploy/actions/deploy@master
          env:
            APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
