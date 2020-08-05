@@ -59,23 +59,19 @@ jobs:
            VAR: alerts_slack_channel=#team-dagpenger-alerts-non-prod
            PRINT_PAYLOAD: true
 
-#     deploy-prod:
-#       name: Deploy to Prod
-#       needs: [build, deploy-preprod]
-#       if: github.ref == 'refs/heads/master'
-#       runs-on: ubuntu-latest
-#       steps:
-#         - uses: actions/checkout@master
-#           name: Checkout code
-#         - name: Lag tag for image
-#           run: echo "::set-env name=TAG::$(git log -1 --pretty='%ad_%h' --date=format:'%Y%m%d%H%M%S')"
-#         - name: Lag full image referanse
-#           run: echo "::set-env name=IMAGE::$BASEIMAGE:$TAG"
-#         - uses: nais/deploy/actions/deploy@master
-#           env:
-#             APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-#             CLUSTER: prod-fss
-#             RESOURCE: nais/prod/nais.yaml,nais/alerts.yaml
-#             VARS: nais/vars.yaml
-#             VAR: alerts_slack_channel=#team-dagpenger-alert
-#             PRINT_PAYLOAD: true
+     deploy-prod:
+       name: Deploy to Prod
+       needs: [build, deploy-preprod]
+       if: github.ref == 'refs/heads/master'
+       runs-on: ubuntu-latest
+       steps:
+         - uses: actions/checkout@master
+           name: Checkout code
+         - uses: nais/deploy/actions/deploy@master
+           env:
+             APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+             CLUSTER: prod-fss
+             RESOURCE: nais/prod/nais.yaml,nais/alerts.yaml
+             VARS: nais/vars.yaml
+             VAR: alerts_slack_channel=#team-dagpenger-alert
+             PRINT_PAYLOAD: true
