@@ -35,4 +35,4 @@ spec:
     - name: DPI_DP_GRAPHQL
       value: http://dp-graphql
     - name: DPI_DP_REGEL_API
-      value: http://dp-regel-api
+      value: http://dp-regel-api.teamdagpenger
