@@ -1,6 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val dusseldorfKtorVersion = "1.2.3.ec226d3"
+val dusseldorfKtorVersion = "7037754"
 val mainClass = "no.nav.helse.AppKt"
 
 plugins {
@@ -20,14 +20,15 @@ buildscript {
 }
 
 dependencies {
-    compile("no.nav.helse:dusseldorf-ktor-core:$dusseldorfKtorVersion")
-    compile("no.nav.helse:dusseldorf-ktor-client:$dusseldorfKtorVersion")
+    compile("com.github.navikt.dusseldorf-ktor:dusseldorf-ktor-core:$dusseldorfKtorVersion")
+    compile("com.github.navikt.dusseldorf-ktor:dusseldorf-ktor-client:$dusseldorfKtorVersion")
 }
 
 repositories {
     maven("https://dl.bintray.com/kotlin/ktor")
     maven("https://kotlin.bintray.com/kotlinx")
-    maven("http://packages.confluent.io/maven/")
+    maven("https://packages.confluent.io/maven/")
+    maven("https://jitpack.io")
 
     jcenter()
     mavenLocal()
