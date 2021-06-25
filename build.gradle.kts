@@ -20,8 +20,8 @@ buildscript {
 }
 
 dependencies {
-    compile("com.github.navikt.dusseldorf-ktor:dusseldorf-ktor-core:$dusseldorfKtorVersion")
-    compile("com.github.navikt.dusseldorf-ktor:dusseldorf-ktor-client:$dusseldorfKtorVersion")
+    implementation("com.github.navikt.dusseldorf-ktor:dusseldorf-ktor-core:$dusseldorfKtorVersion")
+    implementation("com.github.navikt.dusseldorf-ktor:dusseldorf-ktor-client:$dusseldorfKtorVersion")
 }
 
 repositories {

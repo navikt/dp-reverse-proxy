@@ -166,7 +166,7 @@ private fun initializeRequest(
     url: URI,
     parameters: List<Pair<String, Any?>>
 ): Request {
-    return when (httpMethod.value.toLowerCase()) {
+    return when (httpMethod.value.lowercase()) {
         "get" -> url.toString().httpGet(parameters).allowRedirects(false)
         "post" -> url.toString().httpPost(parameters).allowRedirects(false)
         "put" -> url.toString().httpPut(parameters).allowRedirects(false)
